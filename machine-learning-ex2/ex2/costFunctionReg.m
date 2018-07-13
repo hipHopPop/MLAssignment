@@ -19,7 +19,7 @@ grad = zeros(size(theta));
 
 predictionZ  = sigmoid(X*theta);
 exceptTheta0 = theta(2:size(theta));
-exceptTheta0SquaredSum = sum(exceptTheta0.^2);
+exceptTheta0SquaredSum = sum(exceptTheta0.^2); %sum(theta(2:end).^2)).
 J = (-y'*log(predictionZ) - (1-y)'*log(1-predictionZ))./m + lambda*exceptTheta0SquaredSum./(2*m);
 
 theta0is0    = theta;

@@ -36,11 +36,15 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+predictionZ = sigmoid(X*theta);
+exceptTheta0 = theta(2:size(theta));
+exceptTheta0SquaredSum = sum(exceptTheta0.^2); %sum(theta(2:end).^2)).
+J = (sum(-y'*log(predictionZ) - (1-y)'*log(1 - predictionZ)))./m + lambda*exceptTheta0SquaredSum./(2*m);
 
-
-
-
-
+unregularized_grad  = (X'*(predictionZ - y))./m;
+theta0is0           = theta;
+theta0is0(1)        = 0;
+grad                = unregularized_grad + lambda*theta0is0./ m;
 
 
 
