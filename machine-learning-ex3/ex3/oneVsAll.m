@@ -36,6 +36,20 @@ X = [ones(m, 1) X];
 %
 % Example Code for fmincg:
 %
+%{
+alpha = 2;
+for c = 1:num_labels %for each class
+  initial_theta = zeros(n + 1, 1);%for each class, a unique set of theta
+  for iter = 1:50
+    [J grad] = lrCostFunction(initial_theta, X, (y==c), lambda);
+    initial_theta = initial_theta - alpha*grad;
+  end
+  
+  %fprintf('\nCost: %f, derivative: %f, theta: [%f], c: %f\n', J, grad, initial_theta(:), c);
+   all_theta(c, :) = initial_theta';
+end
+%}
+
 for c = 1:num_labels %for each class
   
   
@@ -53,6 +67,8 @@ for c = 1:num_labels %for each class
 %
    all_theta(c, :) = theta';
 end
+
+
 
 
 
