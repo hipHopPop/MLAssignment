@@ -40,7 +40,7 @@ X = [ones(m, 1) X];
 alpha = 2;
 for c = 1:num_labels %for each class
   initial_theta = zeros(n + 1, 1);%for each class, a unique set of theta
-  for iter = 1:500
+  for iter = 1:5000
     [J grad] = lrCostFunction(initial_theta, X, (y==c), lambda);
     initial_theta = initial_theta - alpha*grad;
   end
