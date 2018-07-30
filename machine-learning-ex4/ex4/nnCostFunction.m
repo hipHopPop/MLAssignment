@@ -40,15 +40,18 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 %
 a1 = [ones(m, 1) X];
-a2 = sigmoid(a1*Theta1');
+z2 = a1*Theta1';
+a2 = sigmoid(z2);
 a2 = [ones(size(a2, 1), 1) a2];
-a3 = sigmoid(a2*Theta2');
+z3 = a2*Theta2';
+a3 = sigmoid(z3);
 
 yForAllLabels = zeros(m, num_labels);
 for i = 1:m
   yForAllLabels(i, y(i)) = 1;
 end
 J = 1/m * sum(sum(-yForAllLabels.*log(a3) - (1-yForAllLabels).*log(1-a3)));
+J += (lambda / (2*m)) * (sum(sum((Theta1.^2)(:,2:end))) + sum(sum((Theta2.^2)(:,2:end))));
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -65,6 +68,14 @@ J = 1/m * sum(sum(-yForAllLabels.*log(a3) - (1-yForAllLabels).*log(1-a3)));
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+
+d3 = a3 - yForAllLabels;
+d2 = (d3 * Theta2) .* [ones(m, 1), sigmoidGradient(z2)];
+d2 = d2(:, 2:end);
+Theta1_grad = d2'*a1;
+Theta2_grad = d3'*a2;
+
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -74,6 +85,8 @@ J = 1/m * sum(sum(-yForAllLabels.*log(a3) - (1-yForAllLabels).*log(1-a3)));
 %
 
 
+Theta1_grad = (1/m) * Theta1_grad + (lambda/m) * [zeros(size(Theta1, 1), 1) Theta1(:,2:end)];
+Theta2_grad = (1/m) * Theta2_grad + (lambda/m) * [zeros(size(Theta2, 1), 1) Theta2(:,2:end)];
 
 
 
