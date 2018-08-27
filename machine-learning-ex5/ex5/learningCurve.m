@@ -57,8 +57,10 @@ for i = 1:m
   xForError       = X(1:i, :);
   yForError       = y(1:i);
   theta           = trainLinearReg(xForError, yForError, lambda);
-  error_train(i)  = linearRegCostFunction(xForError, yForError, theta, lambda);
-  error_val(i)    = linearRegCostFunction(Xval, yval, theta, lambda);
+  [Jtrain,grad_train] =linearRegCostFunction(xForError,yForError,theta,0); 
+	[Jval,grad_val]     =linearRegCostFunction(Xval,yval,theta,0);
+  error_train(i)  = Jtrain;  
+  error_val(i)    = Jval;
 end
 
 % -------------------------------------------------------------
